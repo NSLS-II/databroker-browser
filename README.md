@@ -1,7 +1,17 @@
-# qtbroker
+# Graphical Data Broker Browsers
 
-This is a temporary repo. It will probably be merged into NSLS-II/databroker
-in the future. This is barely usable and not stable or officially supported.
+## What is this?
+
+This is GUI for browsing runs that are stored in the databroker. It is intended
+as read-only browser, not a full-fledged data analysis framework. There is
+limited support for interactivity and data export.
+
+Features:
+* Fast, rich search (backed by MongoDB queries)
+* Fully customizable textual summaries and figures that can be made specifically
+  relevant to certain kinds of experiments or results.
+* Interactive figures (backed by matplotlib)
+* Export to CSV and Excel
 
 ## Getting Started
 
