@@ -13,6 +13,9 @@ Features:
 * Interactive figures (backed by matplotlib)
 * Export to CSV and Excel
 
+Currently, there is only one browser, implemented using Qt. Browsers for the
+web, Jupyter, and PDF are planned.
+
 ## Getting Started
 
 You need a databroker with some data in it. A quick way to obtain one is to
