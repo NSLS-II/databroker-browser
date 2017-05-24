@@ -5,6 +5,7 @@ import itertools
 import matplotlib
 from matplotlib.backends.qt_compat import QtWidgets, QtCore
 from matplotlib.figure import Figure
+import matplotlib.pyplot as plt
 
 
 CLIPBOARD = QtWidgets.QApplication.clipboard()
@@ -175,6 +176,8 @@ class HeaderViewerWidget:
         self.fig_dispatch = fig_dispatch
         self.text_dispatch = text_dispatch
         self._tabs = QtWidgets.QTabWidget()
+        self._tabs.setTabsClosable(True)
+        self._tabs.tabCloseRequested.connect(self.close_tab)
         self.widget = QtWidgets.QWidget()
         self._text_summary = QtWidgets.QLabel()
         self._tree = QtWidgets.QTreeWidget()
@@ -265,6 +268,14 @@ class HeaderViewerWidget:
         tab.setLayout(layout)
         self._tabs.addTab(tab, '{:.8}'.format(name))
         return fig
+
+    def close_tab(self, currentIndex):
+        w = self._tabs.widget(currentIndex)
+        w.deleteLater()
+        # Remove figure from registry so it will be re-made if needed later.
+        figname = self._figures.pop(list(self._figures)[currentIndex])
+        plt.close(figname)  # clean up figure
+        self._tabs.removeTab(currentIndex)
 
 
 class HeaderViewerWindow(HeaderViewerWidget):
