@@ -1,6 +1,7 @@
 from collections import Iterable, OrderedDict
 import os
 from datetime import datetime
+import itertools
 import matplotlib
 from matplotlib.backends.qt_compat import QtWidgets, QtCore
 from matplotlib.figure import Figure
@@ -310,13 +311,18 @@ class BrowserWidget:
         expected signature: ``f(header) -> str``
     result_dispatch : callable
         expected signature: ``f(header) -> str``
+    max_results : integer, optional
+        max number of search results shown, default 100
     """
-    def __init__(self, db, fig_dispatch, text_dispatch, result_dispatch):
+    def __init__(self, db, fig_dispatch, text_dispatch, result_dispatch, *,
+                 max_results=100):
         self.db = db
         self._hvw = HeaderViewerWidget(fig_dispatch, text_dispatch)
         self.fig_dispatch = fig_dispatch
         self.text_dispatch = text_dispatch
         self.result_dispatch = result_dispatch
+        self.max_results = max_results
+        self._results_summary = QtWidgets.QLabel()
         self._results = QtWidgets.QListWidget()
         self._results.currentItemChanged.connect(
             self._on_results_selection_changed)
@@ -326,11 +332,15 @@ class BrowserWidget:
         
         layout = QtWidgets.QVBoxLayout()
         sublayout = QtWidgets.QHBoxLayout()
+        results_pane = QtWidgets.QVBoxLayout()
+        results_pane.addWidget(self._results_summary)
+        results_pane.addWidget(self._results)
         layout.addWidget(self._search_bar)
         layout.addLayout(sublayout)
-        sublayout.addWidget(self._results)
+        sublayout.addLayout(results_pane)
         sublayout.addWidget(self._hvw.widget)
         self.widget.setLayout(layout)
+        self.search()
 
     @QtCore.pyqtSlot()
     def _on_search_text_changed(self):
@@ -352,7 +362,20 @@ class BrowserWidget:
 
     def search(self, **query):
         self._results.clear()
-        self._headers = self.db(**query)
+        results = iter(self.db(**query))
+        self._headers = list(itertools.islice(results, self.max_results))
+        try:
+            next(results)
+        except StopIteration:
+            truncated = False
+        else:
+            truncated = True
+        if truncated:
+            self._results_summary.setText("Showing most recent {} matches."
+                                          "".format(self.max_results))
+        else:
+            self._results_summary.setText("Showing all {} matches."
+                                          "".format(len(self._headers)))
         for h in self._headers:
             item = QtWidgets.QListWidgetItem(self.result_dispatch(h))
             self._results.addItem(item)
@@ -371,6 +394,8 @@ class BrowserWindow(BrowserWidget):
         expected signature: ``f(header) -> str``
     result_dispatch : callable
         expected signature: ``f(header) -> str``
+    max_results : integer
+        max number of search results shown, default 100
 
     Example
     -------
@@ -384,8 +409,10 @@ class BrowserWindow(BrowserWidget):
     >>> s = '{start[plan_name]}'
     >>> browser = BrowserWindow(db, f, t, s)
     """
-    def __init__(self, db, fig_dispatch, text_dispatch, result_dispatch):
-        super().__init__(db, fig_dispatch, text_dispatch, result_dispatch)
+    def __init__(self, db, fig_dispatch, text_dispatch, result_dispatch, *,
+                 max_results=100):
+        super().__init__(db, fig_dispatch, text_dispatch, result_dispatch,
+                         max_results=max_results)
         self._window = QtWidgets.QMainWindow()
         self._window.setCentralWidget(self.widget)
         self._window.show()
