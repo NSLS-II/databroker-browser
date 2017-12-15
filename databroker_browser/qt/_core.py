@@ -249,7 +249,7 @@ class HeaderViewerWidget:
             self.export_widget = TableExportWidget(header, db)
             self.tree_container.addWidget(self.export_widget.widget)
         else:
-            self.export_widget = Placholder()
+            self.export_widget = Placeholder()
 
     def _add_figure(self, name):
         tab = QtWidgets.QWidget()
