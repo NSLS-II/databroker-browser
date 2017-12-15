@@ -3,6 +3,7 @@
 
 
 from databroker_browser.qt import BrowserWindow, CrossSection, StackViewer
+from bluesky.callbacks.mpl_plotting import LivePlot
 
 
 search_result = lambda h: "{start[plan_name]} ['{start[uid]:.6}']".format(**h)
