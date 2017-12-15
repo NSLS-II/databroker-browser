@@ -47,7 +47,7 @@ def fill_item(item, value):
                     text = "time: [{}] {}".format(ts, val)
                 else:
                     text = "{}: {}".format(_short_repr(key).strip("'"),
-                                        _short_repr(val))
+                                           _short_repr(val))
                 child.setText(0, text)
                 item.addChild(child)
 
@@ -102,7 +102,7 @@ class TableExportWidget:
         export_csv_btn.clicked.connect(self._export_csv)
         export_xlsx_btn = QtWidgets.QPushButton('Excel')
         export_xlsx_btn.clicked.connect(self._export_xlsx)
-        copy_uid_btn  = QtWidgets.QPushButton('Copy UID to Clipbaord')
+        copy_uid_btn = QtWidgets.QPushButton('Copy UID to Clipbaord')
         copy_uid_btn.clicked.connect(
             lambda: self._copy_uid(self._header['start']['uid']))
 
@@ -135,6 +135,7 @@ class TableExportWidget:
     def _export_xlsx(self):
         try:
             import openpyxl
+            del openpyxl
         except ImportError:
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Critical)
@@ -340,7 +341,7 @@ class BrowserWidget:
         self._search_bar = QtWidgets.QLineEdit()
         self._search_bar.textChanged.connect(self._on_search_text_changed)
         self.widget = QtWidgets.QWidget()
-        
+
         layout = QtWidgets.QVBoxLayout()
         sublayout = QtWidgets.QHBoxLayout()
         results_pane = QtWidgets.QVBoxLayout()
