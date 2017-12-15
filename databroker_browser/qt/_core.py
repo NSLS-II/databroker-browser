@@ -4,9 +4,12 @@ from datetime import datetime
 import itertools
 import matplotlib
 from matplotlib.backends.qt_compat import QtWidgets, QtCore
+from matplotlib.backends.backend_qt5 import _create_qApp
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 
+# make sure we have an application to work with
+_create_qApp()
 
 CLIPBOARD = QtWidgets.QApplication.clipboard()
 
