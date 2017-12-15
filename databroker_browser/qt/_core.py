@@ -158,7 +158,7 @@ class TableExportWidget:
                                                     stream_name=d['name'])
                       for d in self._header.descriptors}
             for name, df in tables.items():
-                df.to_excel(writmer, name)
+                df.to_excel(writer, name)
             writer.save()
 
 
