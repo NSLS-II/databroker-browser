@@ -6,7 +6,7 @@ This is GUI for browsing runs that are stored in the databroker. It is intended
 as read-only browser, not a full-fledged data analysis framework. There is
 limited support for interactivity and data export.
 
-Features:
+**Features:**
 * Fast, rich search (backed by MongoDB queries)
 * Fully customizable textual summaries and figures that can be made specifically
   relevant to certain kinds of experiments or results.
