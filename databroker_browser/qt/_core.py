@@ -105,7 +105,7 @@ class TableExportWidget:
         export_csv_btn.clicked.connect(self._export_csv)
         export_xlsx_btn = QtWidgets.QPushButton('Excel')
         export_xlsx_btn.clicked.connect(self._export_xlsx)
-        copy_uid_btn = QtWidgets.QPushButton('Copy UID to Clipbaord')
+        copy_uid_btn = QtWidgets.QPushButton('Copy UID to Clipboard')
         copy_uid_btn.clicked.connect(
             lambda: self._copy_uid(self._header['start']['uid']))
 
