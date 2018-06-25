@@ -357,7 +357,6 @@ class BrowserWidget:
         self.widget.setLayout(layout)
         self.search()
 
-    @QtCore.pyqtSlot()
     def _on_search_text_changed(self):
         text = self._search_bar.text()
         try:
@@ -368,7 +367,6 @@ class BrowserWidget:
             self._search_bar.setStyleSheet(GOOD_TEXT_INPUT)
             self.search(**query)
 
-    @QtCore.pyqtSlot()
     def _on_results_selection_changed(self):
         row_index = self._results.currentRow()
         if row_index == -1:  # This means None. Do not update the viewer.
