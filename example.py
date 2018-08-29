@@ -6,8 +6,8 @@ from databroker_browser.qt import BrowserWindow, CrossSection, StackViewer
 from bluesky.callbacks.best_effort import BestEffortCallback
 
 
-search_result = lambda h: "{start[plan_name]} ['{start[uid]:.6}']".format(**h)
-text_summary = lambda h: "This is a {start[plan_name]}.".format(**h)
+search_result = lambda h: "{start['plan_name']} ['{start['uid']:.6}']".format(**h)
+text_summary = lambda h: "This is a {start['plan_name']}.".format(**h)
 
 
 def fig_dispatch(header, factory):
